@@ -15,9 +15,24 @@
 
     	// code
     	const first = () => {
-    		console.log(`Sup fuckface?`);
+    		console.log(`Sorry, that was mean. Hello fren!`);
+    		// done got hoisted
+    		second();
+    		// note that this does not wait for timeout to print
+    		console.log(`Did dat work?`);
 
     	}
+
+    	const second = () => {
+    		setTimeout( 
+    			// param 1 - callback
+    			() => { console.log(`Async hey there.`); },
+    			// param 2
+    			5000
+    		)
+    	}
+
+    	first();
 
     </script>
 
