@@ -13,14 +13,13 @@
 
     <script>
 
-    	// code
+    /*
     	const first = () => {
     		console.log(`Sorry, that was mean. Hello fren!`);
     		// done got hoisted
     		second();
     		// note that this does not wait for timeout to print
     		console.log(`Did dat work?`);
-
     	}
 
     	const second = () => {
@@ -29,12 +28,73 @@
     			() => { console.log(`Async hey there.`); },
     			// param 2
     			5000
-    		)
+    		);
     	}
 
     	first();
+    */
+    /*
+    const getRecipe = () => {
+        setTimeout(
+            // param 1 - callback
+            () => {
+                const recipeId = [35, 46, 77, 88];
+                console.log(recipeId);
+                setTimeout(
+                    // param 1 - callback
+                    id => {
+                        const recipe = { title: 'Pasta', author: 'Jonas' };
+                        console.log(`The chosen recipe is ${id}: ${recipe.title}`);
+
+                        setTimeout(
+                            author => {
+                                const recipe2 = { title: 'Soup', author: author };
+                                console.log(recipe2);
+                            }, 
+                            1000, recipe.author
+                        );
+                    },
+                    // param 2 - time
+                    1000,
+                    recipeId[2]
+                );
+            },
+            // param 2 - time
+            3000
+        );
+    }
+    getRecipe();
+    */
+
+
+    const getIDs = new Promise( (resolve, reject) => {
+
+        setTimeout(
+
+          () => { resolve( [35, 46, 77, 88] ); }, 
+          3000
+
+        );
+
+    });
+
+    getIDs
+      .then( IDs => {
+        console.log(IDs);
+      })
+
+      .catch( error => {
+        console.log(`Error.`);
+      });
+
+
+
 
     </script>
+
+
+
+
 
 
 
