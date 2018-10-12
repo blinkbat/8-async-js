@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Asynchronous JavaScript</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Asynchronous JavaScript</title>
 </head>
 <body>
-    <h1>Asynchronous JavaScript</h1>
+  <h1>Asynchronous JavaScript</h1>
 
 
 
-    <script>
+  <script>
 
     /*
     	const first = () => {
@@ -66,7 +66,7 @@
     getRecipe();
     */
 
-
+    /*
     const getIDs = new Promise( (resolve, reject) => {
 
         setTimeout(
@@ -78,19 +78,194 @@
 
     });
 
+
+
+    const getRecipe = recipeID => {
+
+      return new Promise( (resolve, reject) => {
+
+        setTimeout( ID => {
+
+          const recipe = { title: 'Pasta', author: 'Jonas' };
+
+          resolve( `${ID}: ${recipe.title}` );
+
+        }, 3000, recipeID);
+
+      });
+
+    };
+
+
+
+    const getRelated = author => {
+
+      return new Promise( (resolve, reject) => {
+
+        setTimeout( author => {
+
+          const recipe = { title: 'Pizza', author: 'Jonas' };
+
+          resolve( `${author}: ${recipe.title}` );
+
+        }, 3000, author);
+
+      });
+
+    };
+
+
+
+    // async / await method
+
+    // create async function
+    async function getRecipesAW() {
+
+      // stops execution of code until promise resolves
+      const IDs = await getIDs;
+      console.log( IDs );
+
+      const recipe = await getRecipe( IDs[2] );
+      console.log( recipe );
+
+      const related = await getRelated( 'Jonas' );
+      console.log( related );
+
+      return recipe;
+
+    }
+
+    // call async function
+    getRecipesAW().then( resolved => console.log( `The delayed result: ${resolved}` ) );
+
+    */
+
+
+    /*
+    // then / catch method
+
     getIDs
       .then( IDs => {
         console.log(IDs);
+        return getRecipe( IDs[2] );
+      })
+
+      .then( recipe => {
+        console.log(recipe);
+        return getRelated( 'Jonas' );
+      })
+
+      .then( recipe => {
+        console.log(recipe);
       })
 
       .catch( error => {
         console.log(`Error.`);
       });
+    */
+
+
+
+    // FETCH requests
+
+
+    getWeather = (woeid) => {
+      // use cors-anywhere port to bypass CORS for fetch req
+      const cors = 'https://cors-anywhere.herokuapp.com/';
+
+      fetch(`${cors}https://www.metaweather.com/api/location/${woeid}`)
+
+      .then( result => {
+
+        console.log( result );
+
+        return result.json();
+
+      })
+
+      .then( json => {
+
+        //console.log( json );
+
+        const today = json.consolidated_weather[0];
+        console.log( `Temperatures in ${json.title}:` );
+        console.log( `${Math.trunc( today.min_temp )} to ${Math.trunc( today.max_temp )} degrees Celsius.` );
+
+      })
+
+      .catch( error => {
+
+        console.log( error );
+
+      });
+    }
+
+    //getWeather(2487956);
+
+    //getWeather(44418);
+
+
+
+    // async / await version of above code
+    async function getWeatherAW( woeid ) {
+
+      // try the below code, and...
+      try {
+
+        const cors = 'https://cors-anywhere.herokuapp.com/';
+
+        const result = await fetch(`${cors}https://www.metaweather.com/api/location/${woeid}`)
+        const json = await result.json();
+
+        const today = json.consolidated_weather[0];
+
+        console.log( `Temperatures in ${json.title}:` );
+        console.log( `${Math.trunc( today.min_temp )} to ${Math.trunc( today.max_temp )} degrees Celsius.` );
+
+      // catch any errors that occur & put in the console.
+      } catch( error ) {
+
+        console.log( error );
+
+      }
+
+    }
+
+    // note that these results may appear in a different order
+    // than they were called in. this is proof of the async
+    // functions returning in the background when complete.
+
+    getWeatherAW(2487956);
+    getWeatherAW(44418);
 
 
 
 
-    </script>
+
+
+
+
+
+
+
+
+
+
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
